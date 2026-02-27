@@ -1,0 +1,89 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background:#f2f2f2;
+            margin:0;
+        }
+
+        h1{
+            text-align:center;
+            background:#222;
+            color:white;
+            padding:15px;
+        }
+
+        #products{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+            gap:20px;
+            padding:20px;
+        }
+
+        .card{
+            background:white;
+            padding:15px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:scale(1.05);
+        }
+
+        img{
+            width:100%;
+            height:180px;
+            object-fit:contain;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🛒 Products Store</h1>
+
+<div id="products"></div>
+
+<script>
+
+/* Fetch 100 Products */
+fetch("https://dummyjson.com/products?limit=100")
+.then(res => res.json())
+.then(data => showProducts(data.products));
+
+function showProducts(products){
+
+    const container = document.getElementById("products");
+
+    products.forEach(product => {
+
+        let card = document.createElement("div");
+        card.className="card";
+
+        card.innerHTML = `
+            <img src="${product.thumbnail}">
+            <h3>${product.title}</h3>
+            <p>₹ ${product.price}</p>
+        `;
+
+        /* Go to details page */
+        card.onclick = () => {
+            window.location.href =
+              `product.html?id=${product.id}`;
+        };
+
+        container.appendChild(card);
+    });
+}
+
+</script>
+
+</body>
+</html>

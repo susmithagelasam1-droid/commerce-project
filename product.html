@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Details</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f4f4f4;
+            padding:20px;
+        }
+
+        .container{
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            max-width:600px;
+            margin:auto;
+            text-align:center;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+        }
+
+        img{
+            width:300px;
+            object-fit:contain;
+        }
+
+        button{
+            padding:10px 15px;
+            margin:10px;
+            border:none;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .buy{ background:green; }
+        .cart{ background:orange; }
+
+        #message{
+            font-weight:bold;
+            color:blue;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2 id="title"></h2>
+    <img id="image">
+    <p id="desc"></p>
+    <h3 id="price"></h3>
+
+    <button class="buy" onclick="buy()">Buy Now</button>
+    <button class="cart" onclick="cart()">Add To Cart</button>
+
+    <p id="message"></p>
+</div>
+
+<script>
+
+/* Get ID from URL */
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+/* Fetch Single Product */
+fetch(`https://dummyjson.com/products/${id}`)
+.then(res => res.json())
+.then(product => {
+
+    document.getElementById("title").innerText = product.title;
+    document.getElementById("image").src = product.thumbnail;
+    document.getElementById("desc").innerText = product.description;
+    document.getElementById("price").innerText =
+        "Price: ₹ " + product.price;
+});
+
+/* Buttons */
+
+function buy(){
+    document.getElementById("message").innerText =
+        "✅ Item Ordered Successfully!";
+}
+
+function cart(){
+    document.getElementById("message").innerText =
+        "🛒 Item Added To Cart!";
+}
+
+</script>
+
+</body>
+</html>
